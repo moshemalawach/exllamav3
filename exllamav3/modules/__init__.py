@@ -20,3 +20,7 @@ from .conv import Conv
 from .pos_embedding import PosEmbedding
 from .pixel_unshuffle import PixelUnshuffle
 from .gather import OutputGather
+from .hyv4 import (
+    HyV4Attention, HyV4CompressedIndexer, HyV4EngramLayer, HyV4HyperConnection,
+    HyV4HyperHead, HyV4MLP, HyV4MoE,
+)
