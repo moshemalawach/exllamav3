@@ -139,7 +139,9 @@ class HyV4FlashModel(Model):
                     head_vocab_sizes = sizes, hash_multipliers = mults, pad_id = pad,
                     fp8_embedding = config.engram_fp8_embedding,
                     rms_norm_eps = config.rms_norm_eps,
-                    engram_eps = torch.finfo(torch.float32 if "float32" in str(config.config_dict.get("dtype", "bfloat16")) else torch.bfloat16).eps,
+                    # The reference builds these norms as nn.RMSNorm(eps=None); on BF16 input PyTorch then uses
+                    # its FP32 opmath epsilon (2^-23), not finfo(bfloat16).eps (2^-7).
+                    engram_eps = torch.finfo(torch.float32).eps,
                 ))
                 self.modules[-1].lookup_table = lookup
                 self.modules[-1].ple_embedding.eos_token_id = pad
